@@ -1,0 +1,38 @@
+Method 1: VS Code GUI (easiest for beginners)
+Open Source Control panel (Ctrl+Shift+G or click the branch icon in sidebar)
+
+Stage changes: Click the + next to each file, or + all at top
+
+Commit: Type a short message like "Add signIn controller" in the box, press Ctrl+Enter
+
+Push: Click the sync arrows in bottom status bar, or ... → "Push"
+
+Method 2: Terminal (faster once comfortable):
+# Stage all changes
+git add .
+
+# Commit with message
+git commit -m "Add signIn controller with bcrypt compare"
+
+# Push to GitHub
+git push
+
+Note:
+
+before starting always git pull to avoid conflicts.
+to push to github:
+git push origin main url
+to clone from github:
+git clone url
+to check status:
+git status
+to check history:
+git log
+to create a new branch:
+git checkout -b branch_name
+to switch branches:
+git checkout branch_name
+to merge branches:
+git merge branch_name
+to delete a branch:
+git branch -d branch_name

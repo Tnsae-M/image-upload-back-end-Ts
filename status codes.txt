@@ -1,0 +1,12 @@
+Types of status codes:
+      2** success,
+      4## client error,
+      5## server error.
+      specifics: 
+      201= created(user,...),
+      200= ok
+      400= Bad req,
+      401= unauthorized,
+      403=forbidden(no permission),
+      404=not found.
+      500= internal server error.
