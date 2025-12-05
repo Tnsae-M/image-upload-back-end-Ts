@@ -8,7 +8,7 @@ import useAuth from "../middleware/authMiddleWare";
 
 //create router
 const router: Router = express.Router();
-//create route
+//create routes for auth
 router.post("/signup", signUpUser);
 router.post("/signin", signInUser);
 router.get("/profile", useAuth, (req, res) => {

@@ -2,13 +2,8 @@
 import jwt from "jsonwebtoken";
 // import "dotenv/config";
 import { Request, Response, NextFunction } from "express";
-//create a jwtPayload interface
-export interface jwtPayLoad {
-  userId: string;
-  userName: string;
-  email: string;
-  role: string;
-}
+import { JwtPayload } from "./auth";
+
 const secret_key = process.env.Jwt_secret_key as string;
 async function useAuth(
   req: Request,
@@ -27,12 +22,12 @@ async function useAuth(
   }
   //parse token from authHeader
   const token = authHeader.split(" ")[1];
+  if (!token) {
+    throw new Error("error occured while spliting token!");
+  }
   try {
-    if (!token) {
-      throw new Error("error found in token. please try again!");
-    }
     //now decode the token
-    const decodedToken = jwt.verify(token, secret_key) as jwtPayLoad;
+    const decodedToken = jwt.verify(token, secret_key) as JwtPayload;
     //use the decoded token
     (req as any).user = decodedToken;
     //allow the next function to takeover

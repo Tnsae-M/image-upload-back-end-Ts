@@ -4,6 +4,7 @@ import Jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import { Request, Response } from "express";
+import { JwtPayload } from "../../middleware/auth";
 //create async function for signing in a user
 async function singInUser(
   req: Request<{}, {}, UserInt>,
@@ -53,7 +54,7 @@ async function singInUser(
     //or just blindly assume that jwt_secret_key as string in the payload of jwt.sign.
     const accessToken: string = Jwt.sign(
       {
-        UserId: checkUser._id,
+        UserId: checkUser._id.toString(),
         userName: checkUser.userName,
         email: checkUser.email,
         role: checkUser.role,
