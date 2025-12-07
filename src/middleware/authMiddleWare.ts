@@ -30,6 +30,7 @@ async function useAuth(
     const decodedToken = jwt.verify(token, secret_key) as JwtPayload;
     //use the decoded token
     (req as any).user = decodedToken;
+    // console.log("middleware token: ", decodedToken);
     //allow the next function to takeover
     next();
   } catch (e) {

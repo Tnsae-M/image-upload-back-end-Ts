@@ -1,29 +1,32 @@
 //import assets
-import { JwtPayload } from "../middleware/auth";
-import { Book, bookInt } from "../models/book";
+import { Book, bookInt } from "../../models/book";
 import { Request, Response } from "express";
-import { User } from "../models/User";
+import { User } from "../../models/User";
 //create an interface for user type
 
 //create the add a book function
-async function addBook(
-  req: Request<{}, {}, bookInt> & { user?: JwtPayload },
-  res: Response
-): Promise<void> {
+async function addBook(req: Request, res: Response): Promise<void> {
   try {
     //import userID and userName from auth
     const user = (req as any).user;
-    const userId = user._id;
-    console.log(userId);
+    const userIdAddBook = user.userId;
     //parse book info from req.body
     const { title, author, _id, publish_Date } = req.body;
     //find the user
-    const bookAddingUser = User.findById(userId);
+    const bookAddingUser = User.findById(userIdAddBook);
     //check user
     if (!bookAddingUser) {
       res.status(401).json({
         status: "failed",
         message: "user not found. please check Id and try again.",
+      });
+      return;
+    }
+    const checkBook = await Book.findOne({ title });
+    if (!checkBook) {
+      res.status(400).json({
+        status: "failed",
+        message: `A book with the name,${title}, already exists. please change the name and try again.`,
       });
       return;
     }
@@ -33,7 +36,7 @@ async function addBook(
       title: title,
       author: author,
       publish_Date: publish_Date,
-      addedBy: userId,
+      addedBy: userIdAddBook,
     });
     if (!newBook) {
       res.status(401).json({
