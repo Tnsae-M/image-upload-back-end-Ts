@@ -1,0 +1,23 @@
+Auth service
+
+User profile service
+
+Book catalog service
+
+Search service
+
+Borrow/loan service
+
+Return service
+
+Reservation/hold service
+
+Renewal service
+
+Fine/payment service
+
+Recommendation service
+
+Review & rating service
+
+Admin/book-management service
