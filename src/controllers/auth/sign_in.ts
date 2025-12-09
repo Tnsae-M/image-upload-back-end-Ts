@@ -51,7 +51,7 @@ async function singInUser(
       return;
     }
     //or just blindly assume that jwt_secret_key as string in the payload of jwt.sign.
-    console.log(checkUser._id.toString());
+    // console.log(checkUser._id.toString());
     const accessToken: string = Jwt.sign(
       {
         userId: checkUser._id.toString(),

@@ -1,11 +1,23 @@
 Auth service
+Basic validation for add/update book
+Central error handler (no try/catch chaos)
+Simple access control (e.g. only logged-in users can add/delete)
 
 User profile service
-
-Book catalog service
+View/update user profile
+Book services
+View book details (GET /books/:id)
+List books (GET /books)
+List books by
+- author
+- title
+catalog: genres
+Update book details (PUT/PATCH /books/:id)
 
 Search service
-
+Search books by
+- title
+- author
 Borrow/loan service
 
 Return service
