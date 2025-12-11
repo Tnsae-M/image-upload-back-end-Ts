@@ -23,7 +23,7 @@ async function addBook(req: Request, res: Response): Promise<void> {
       return;
     }
     const checkBook = await Book.findOne({ title });
-    if (!checkBook) {
+    if (checkBook) {
       res.status(400).json({
         status: "failed",
         message: `A book with the name,${title}, already exists. please change the name and try again.`,
