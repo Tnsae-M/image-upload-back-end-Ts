@@ -1,35 +1,31 @@
-Auth service
-Basic validation for add/update book
+uncompleted tasks
 Central error handler (no try/catch chaos)
-Simple access control (e.g. only logged-in users can add/delete)
+update user profile
+catalog: genres
+Update book details (PUT/PATCH /books/:id)
+Borrow/loan service
+Return service
+Reservation/hold service
+Renewal service
+Fine/payment service
+Recommendation service
+Review & rating service
+Admin/book-management service
 
-User profile service
-View/update user profile
+completed tasks
+User profile service: View user profile
+Auth service
+User registration
+User login
+Basic validation for add/update/delete/get book
+Simple access control (e.g. only logged-in users can add/delete)
 Book services
 View book details (GET /books/:id)
 List books (GET /books)
 List books by
 - author
 - title
-catalog: genres
-Update book details (PUT/PATCH /books/:id)
-
 Search service
 Search books by
 - title
 - author
-Borrow/loan service
-
-Return service
-
-Reservation/hold service
-
-Renewal service
-
-Fine/payment service
-
-Recommendation service
-
-Review & rating service
-
-Admin/book-management service
