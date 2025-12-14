@@ -8,7 +8,7 @@ function errorHandler(
   next: NextFunction
 ) {
   //log error for debugging
-  console.log(err);
+  console.error(err);
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       status: "failed",

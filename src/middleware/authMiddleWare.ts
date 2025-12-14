@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 // import "dotenv/config";
 import { Request, Response, NextFunction } from "express";
 import { JwtPayload } from "./auth";
+import { AppError } from "../errors/app.error";
 
 const secret_key = process.env.Jwt_secret_key as string;
 async function useAuth(
@@ -14,10 +15,7 @@ async function useAuth(
   const authHeader = req.headers["authorization"];
   //apply the same logic of jwt.sign, where undefined is overruled as output type.
   if (!authHeader || !authHeader.startsWith("Bearer")) {
-    res.status(401).json({
-      status: "failed",
-      message: "missing token or invalid token.",
-    });
+    throw new AppError(401, "invalid token or credential.");
     return;
   }
   //parse token from authHeader
@@ -34,10 +32,7 @@ async function useAuth(
     //allow the next function to takeover
     next();
   } catch (e) {
-    res.status(401).json({
-      status: "failed",
-      message: "Invalid or expired token!",
-    });
+    next(e);
   }
 }
 export default useAuth;

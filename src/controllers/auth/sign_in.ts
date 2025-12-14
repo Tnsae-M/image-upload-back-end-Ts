@@ -1,44 +1,42 @@
 //import assets required for signing in user
-import { User, UserInt, UserId } from "../../models/User";
+import { User, UserInt } from "../../models/User";
 import Jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import "dotenv/config";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { AppError } from "../../errors/app.error";
 //create async function for signing in a user
 async function singInUser(
   req: Request<{}, {}, UserInt>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> {
   try {
     //recieve input from request body
     const { userName, email, password } = req.body;
     //empty email/username and pasword handler
     if ((!email && !userName) || !password) {
-      res.status(400).json({
-        status: "failed",
-        message: "email or username and password are required",
-      });
+      throw new AppError(404, "Email or Username and password is required.");
       return;
     }
     //apply checkUser logic again
     const checkUser = await User.findOne({ $or: [{ userName }, { email }] });
     //condtional where invaild if user doesn't exist.
     if (!checkUser) {
-      res.status(401).json({
-        status: "failed",
-        message:
-          "invalid credentials! please try again after changing your credentials.",
-      });
+      throw new AppError(
+        401,
+        "Invalid credential! please check and try again."
+      );
       return;
     }
     //if user exists, check if the password is correct.
     const checkPassword = await bcrypt.compare(password, checkUser.password);
     //condition where invalid if password is incorrect.
     if (!checkPassword) {
-      res.status(401).json({
-        status: "failed.",
-        message: "password is incorrect. please change password and try again!",
-      });
+      throw new AppError(
+        401,
+        "your Password is incorrect! please check and try again."
+      );
       return;
     }
     //now if password is coreect,create token(bearer) for user
@@ -69,11 +67,7 @@ async function singInUser(
       accessToken,
     });
   } catch (e) {
-    res.status(500).json({
-      status: "failed",
-      message: "something went wrong. please check console",
-    });
-    console.log(e);
+    next(e);
   }
 }
 export default singInUser;

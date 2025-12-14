@@ -1,11 +1,13 @@
 //import users
 import { User, UserInt } from "../../models/User";
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import bcrypt from "bcrypt";
+import { AppError } from "../../errors/app.error";
 //create sign_up function
 async function signUpUser(
   req: Request<{}, {}, UserInt>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> {
   try {
     //extract user info from request.
@@ -13,10 +15,10 @@ async function signUpUser(
     // check if user is already signed in or not.
     const checkUser = await User.findOne({ $or: [{ userName }, { email }] });
     if (checkUser) {
-      res.status(400).json({
-        status: "failed",
-        message: "username or email already exists. change to a different one.",
-      });
+      throw new AppError(
+        401,
+        "username or email already exists.Please change your credential and try again."
+      );
       return;
     }
     //hash users password
@@ -32,10 +34,10 @@ async function signUpUser(
     // await newUser.save();
     //check if error occured while creating user
     if (!newUser) {
-      res.status(401).json({
-        status: "failed",
-        message: "error occured when signing up. please try again.",
-      });
+      throw new AppError(
+        401,
+        "Error occured when creating user! please check your information and try again."
+      );
       return;
     }
     res.status(201).json({
@@ -44,11 +46,7 @@ async function signUpUser(
       user: newUser,
     });
   } catch (e) {
-    res.status(500).json({
-      status: "failed",
-      message: "something went wrong! check error on the console.",
-    });
-    console.log(e);
+    next(e);
   }
 }
 export default signUpUser;
