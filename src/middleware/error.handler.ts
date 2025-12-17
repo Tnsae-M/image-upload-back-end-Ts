@@ -1,6 +1,8 @@
 //import assets
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/app.error";
+import dotenv from "dotenv";
+dotenv.config();
 function errorHandler(
   err: Error,
   req: Request,
@@ -14,10 +16,17 @@ function errorHandler(
       status: "failed",
       message: err.message,
     });
-  } //programmer error is reported here
-  return res.status(500).json({
+  }
+  const isDev = process.env.node_env !== "development";
+  const payload: any = {
     status: "failed",
-    message: "Internal server error! Something went wrong.",
-  });
+    message: "Internal server error! something went wrong.",
+  };
+  if (isDev) {
+    payload.error = err?.message;
+    payload.stack = err?.stack;
+  }
+  //programmer error is reported here
+  return res.status(500).json(payload);
 }
 export default errorHandler;

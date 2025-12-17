@@ -1,8 +1,14 @@
+High-priority fixes (do these first)
+
+Fix error handler flow (currently falls through and always returns 500 even for AppError).
+Normalize naming/casing: filenames, model names, and schema fields (e.g., publish_Date → publishDate or publish_date) to avoid silent Mongoose ignores.
+Add validation (Joi/Zod/express-validator) for request bodies and query params.
+Move business logic out of controllers into services (keep controllers thin).
+Enable safe updates: use { new: true, runValidators: true, context: "query" } and handle null returns from findByIdAndUpdate.
+
 uncompleted tasks
-Central error handler (no try/catch chaos)
 update user profile
 catalog: genres
-Update book details (PUT/PATCH /books/:id)
 Borrow/loan service
 Return service
 Reservation/hold service
@@ -14,6 +20,7 @@ Admin/book-management service
 
 completed tasks
 User profile service: View user profile
+Central error handler (no try/catch chaos)
 Auth service
 User registration
 User login
@@ -29,3 +36,5 @@ Search service
 Search books by
 - title
 - author
+Update book details (PUT/PATCH /books/:id)
+
