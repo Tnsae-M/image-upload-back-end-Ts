@@ -1,8 +1,13 @@
 //import assets
+import { AppError } from "../../errors/app.error";
 import { Book } from "../../models/book";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 //create search book by id function
-async function searchBookById(req: Request, res: Response): Promise<void> {
+async function searchBookById(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   try {
     //get id from params
     const { id } = req.params;
@@ -10,10 +15,10 @@ async function searchBookById(req: Request, res: Response): Promise<void> {
     const findBookById = await Book.findById(id);
     //handle error when book doesn't exist
     if (!findBookById) {
-      res.status(404).json({
-        status: "failed",
-        message: "Book not found! please check the id and try again.",
-      });
+      throw new AppError(
+        404,
+        "Book not found. please check your Id and try again."
+      );
       return;
     }
     res.status(201).json({
@@ -22,10 +27,7 @@ async function searchBookById(req: Request, res: Response): Promise<void> {
       Book: findBookById,
     });
   } catch (e) {
-    res.status(500).json({
-      status: "failed",
-      message: "something went wrong! please check with your service provider.",
-    });
+    next(e);
   }
 }
 export default searchBookById;

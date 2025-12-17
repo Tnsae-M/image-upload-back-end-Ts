@@ -1,18 +1,23 @@
 //import assets
+import { AppError } from "../../errors/app.error";
 import { Book } from "../../models/book";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 //create delete function
-async function deleteBook(req: Request, res: Response): Promise<void> {
+async function deleteBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   try {
     //import id from req
     const { id } = req.params;
     const deletedBook = await Book.findByIdAndDelete(id);
     if (!deletedBook) {
-      res.status(404).json({
-        status: "failed",
-        message: "book not found. please try a different id.",
-      });
+      throw new AppError(
+        404,
+        "The book to delete is not found. please check and try again."
+      );
       return;
     }
     res.status(200).json({
@@ -21,11 +26,7 @@ async function deleteBook(req: Request, res: Response): Promise<void> {
       Book: deletedBook,
     });
   } catch (e) {
-    res.status(500).json({
-      status: "failed",
-      message: "something went wrong. please check with your service provider.",
-    });
-    console.log(e);
+    next(e);
   }
 }
 export default deleteBook;

@@ -1,10 +1,12 @@
 //import assets
 import { Book } from "../../models/book";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { AppError } from "../../errors/app.error";
 //create the search by author function
 async function searchByAuthorAndTitle(
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> {
   try {
     const { title, author } = req.query;
@@ -15,10 +17,10 @@ async function searchByAuthorAndTitle(
     const books = await Book.find(filter);
     //check if no such book exists
     if (!books) {
-      res.status(404).json({
-        status: "failed",
-        message: `Books with given data doesn't exist. please change and try again. `,
-      });
+      throw new AppError(
+        404,
+        "Books with given title or author is not found. please check and try again."
+      );
       return;
     }
     res.status(200).json({
@@ -27,11 +29,7 @@ async function searchByAuthorAndTitle(
       Books: books,
     });
   } catch (e) {
-    res.status(500).json({
-      status: "failed",
-      message: "something went wrong!",
-    });
-    console.log(e);
+    next(e);
   }
 }
 export default searchByAuthorAndTitle;

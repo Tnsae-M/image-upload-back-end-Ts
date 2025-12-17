@@ -1,11 +1,16 @@
 //import assets
 import { Book, bookInt } from "../../models/book";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/User";
+import { AppError } from "../../errors/app.error";
 //create an interface for user type
 
 //create the add a book function
-async function addBook(req: Request, res: Response): Promise<void> {
+async function addBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   try {
     //import userID and userName from auth
     const user = (req as any).user;
@@ -16,18 +21,15 @@ async function addBook(req: Request, res: Response): Promise<void> {
     const bookAddingUser = User.findById(userIdAddBook);
     //check user
     if (!bookAddingUser) {
-      res.status(401).json({
-        status: "failed",
-        message: "user not found. please check Id and try again.",
-      });
+      throw new AppError(
+        404,
+        "User not found. please change Id and try again."
+      );
       return;
     }
     const checkBook = await Book.findOne({ title });
     if (checkBook) {
-      res.status(400).json({
-        status: "failed",
-        message: `A book with the name,${title}, already exists. please change the name and try again.`,
-      });
+      throw new AppError(401, "Book with this title exists");
       return;
     }
     //create and add new book
@@ -51,11 +53,7 @@ async function addBook(req: Request, res: Response): Promise<void> {
       book: newBook,
     });
   } catch (e) {
-    res.status(500).json({
-      status: "failed",
-      message: "something went wrong. please contact your service provider.",
-    });
-    console.log(e);
+    next(e);
   }
 }
 export default addBook;

@@ -1,30 +1,29 @@
 //import assets for reading a book
+import { AppError } from "../../errors/app.error";
 import { Book, bookInt } from "../../models/book";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 //create the read book fuunction
-async function searchBook(req: Request, res: Response): Promise<void> {
+async function searchBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   try {
     //take the book name from req.body
     const { title } = req.body;
     const checkBook = await Book.findOne({ title });
     if (!checkBook) {
-      res.status(404).json({
-        status: "failed.",
-        message: `There is no book called ${title}! please check the title and try again.`,
-      });
+      throw new AppError(404, `There is no book with the title ${title}.`);
       return;
     }
     res.status(200).json({
       status: "success",
-      message: "",
+      message: "book found successfully.",
+      Book: checkBook,
     });
   } catch (e) {
-    res.status(500).json({
-      status: "failed",
-      message: "something went wrong. please check with your service provider!",
-    });
-    console.log(e);
+    next(e);
   }
 }
 //export the function

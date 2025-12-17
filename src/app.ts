@@ -1,8 +1,7 @@
-import { Express, Request, Response } from "express";
+import { Express } from "express";
 import express from "express";
 // import "dotenv/config";
 import { connectToDbMdb } from "./config/db/db";
-import { User } from "./models/User";
 //import routes
 import homeRouter from "./routes/homepage";
 import authRouter from "./routes/auth_routes";
