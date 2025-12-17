@@ -17,7 +17,7 @@ function errorHandler(
   } //programmer error is reported here
   return res.status(500).json({
     status: "failed",
-    message: "Something went wrong.",
+    message: "Internal server error! Something went wrong.",
   });
 }
 export default errorHandler;
