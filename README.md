@@ -141,11 +141,3 @@ npm start
 - Add logging (winston/pino) and request logging (morgan) before deploying.
 
 ---
-
-If you'd like, I can now:
-
-- scaffold the `borrow` and `return` controllers and service, or
-- add request validation for the `add` and `update` book endpoints, or
-- fix the `error.handler.ts` logic and update `NODE_ENV` usage.
-
-Pick one and I'll implement it next.
