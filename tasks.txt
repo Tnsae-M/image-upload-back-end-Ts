@@ -1,3 +1,7 @@
+Project maturity vs world-class/enterprise backends: 32%
+
+Rationale (brief): core functionality and structure present (auth, CRUD, central error handler), but missing transactional flows (borrow/return), robust validation, role-based access controls, tests, CI/CD, monitoring, security hardening and production-grade configs. Implementing the high-priority fixes listed in README will substantially raise this percentage
+
 High-priority fixes (do these first)
 
 Fix error handler flow (currently falls through and always returns 500 even for AppError).
