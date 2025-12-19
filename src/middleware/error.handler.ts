@@ -1,23 +1,23 @@
 //import assets
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/app.error";
-import dotenv from "dotenv";
-dotenv.config();
 function errorHandler(
-  err: Error,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
+  //check if headers already exist
+  if (res.headersSent) return next(err);
   //log error for debugging
   console.error(err);
-  if (err instanceof AppError) {
-    res.status(err.statusCode).json({
+  if (err instanceof AppError && err.isOperational) {
+    return res.status(err.statusCode).json({
       status: "failed",
       message: err.message,
     });
   }
-  const isDev = process.env.node_env !== "development";
+  const isDev = process.env.NODE_ENV !== "production";
   const payload: any = {
     status: "failed",
     message: "Internal server error! something went wrong.",

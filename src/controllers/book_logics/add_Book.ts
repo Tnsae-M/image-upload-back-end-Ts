@@ -41,10 +41,10 @@ async function addBook(
       addedBy: userIdAddBook,
     });
     if (!newBook) {
-      res.status(401).json({
-        status: "failed",
-        message: "Something went wrong when adding book.",
-      });
+      throw new AppError(
+        404,
+        "Something went wrong when adding book. check with your service provider"
+      );
       return;
     }
     res.status(201).json({

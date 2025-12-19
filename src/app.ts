@@ -1,6 +1,8 @@
+//import assets like routes enviroments to bootstrap
 import { Express } from "express";
 import express from "express";
-// import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config();
 import { connectToDbMdb } from "./config/db/db";
 //import routes
 import homeRouter from "./routes/homepage";
