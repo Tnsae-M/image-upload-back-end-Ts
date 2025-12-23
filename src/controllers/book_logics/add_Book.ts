@@ -3,6 +3,7 @@ import { Book, bookInt } from "../../models/book";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/User";
 import { AppError } from "../../errors/app.error";
+import { validate,addBookSchema } from '../../middleware/validators';
 //create an interface for user type
 
 //create the add a book function
@@ -12,6 +13,7 @@ async function addBook(
   next: NextFunction
 ): Promise<void> {
   try {
+    validate(addBookSchema)(req,res,next);
     //import userID and userName from auth
     const user = (req as any).user;
     const userIdAddBook = user.userId;

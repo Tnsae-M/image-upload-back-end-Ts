@@ -4,7 +4,7 @@ This file lists prioritized, actionable tasks to bring the project to a strong e
 
 ## High Priority — fix these first
 
-- [ ] Fix error handler flow (`src/middleware/error.handler.ts`) — ensure AppError branch returns and use `NODE_ENV` to hide stack traces (in-progress)
+- [✅:Done] Fix error handler flow (`src/middleware/error.handler.ts`) — ensure AppError branch returns and use `NODE_ENV` to hide stack traces (in-progress)
 - [ ] Add request validation middleware (Joi / Zod / express-validator) — wire validators for `add` & `update` endpoints (in-progress)
 - [ ] Normalize schema field names and file casing (e.g., `publishDate`, `book.ts` / `User.ts`) — avoid Mongoose silent ignores
 - [ ] Enable safe updates on update endpoints (`findByIdAndUpdate` with `{ new: true, runValidators: true, context: 'query' }`)

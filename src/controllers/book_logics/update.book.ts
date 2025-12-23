@@ -2,10 +2,12 @@
 import { Book } from "../../models/book";
 import { AppError } from "../../errors/app.error";
 import { Request, Response, NextFunction } from "express";
-
+import { validate,addBookSchema } from '../../middleware/validators';
 //create a update book function
 async function updateBook(req: Request, res: Response, next: NextFunction) {
   try {
+    //validate req.body before procedding
+    validate(addBookSchema)(req,res,next);
     //get id from params
     const { id } = req.params;
     const { title, author, publish_Date } = req.body;
