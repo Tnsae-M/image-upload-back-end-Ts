@@ -1,7 +1,5 @@
 # Node.js with TypeScript - Book Management System
-
-This is a RESTful API for a Book Management System built with Node.js, Express, and TypeScript. It allows users to manage a collection of books, including user authentication.
-
+A robust, type-safe RESTful API built for managing a digital bookstore. This project demonstrates modern back-end architectural patterns, focusing on data integrity, modularity, and scalable server-side logic using Node.js  and TypeScript.
 ## Table of Contents
 
 - [Installation](#installation)
